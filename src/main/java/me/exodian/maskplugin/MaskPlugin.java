@@ -95,7 +95,7 @@ public class MaskPlugin extends JavaPlugin {
         }
 
         public void prepareArmor() {
-            ItemStack InvisHelmTEMP = new ItemStack(Material.LEATHER_HELMET);
+            ItemStack InvisHelmTEMP = new ItemStack(Material.SKELETON_SKULL);
             ItemMeta InvisHelmMETA = InvisHelmTEMP.getItemMeta();
             InvisHelmMETA.setDisplayName(ChatColor.DARK_RED + "" + ChatColor.ITALIC + "Helm of Invisibility");
             InvisHelmMETA.setLocalizedName("InvisHelm");
@@ -110,14 +110,20 @@ public class MaskPlugin extends JavaPlugin {
         public void onArmorUsage(ArmorEquipEvent event) {
             Player p = event.getPlayer();
             final Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
-            if (event.getOldArmorPiece().equals(InvisHelm)) {
-                if (scoreboard.getTeam(teamName).hasEntry(p.getName())) {
-                    scoreboard.getTeam(teamName).removeEntry(p.getName());
-                    p.sendMessage(ChatColor.DARK_RED + "Your name-tag is unHidden!");
+            try {
+                if (event.getOldArmorPiece().equals(InvisHelm)) {
+                    if (scoreboard.getTeam(teamName).hasEntry(p.getName())) {
+                        scoreboard.getTeam(teamName).removeEntry(p.getName());
+                        p.sendMessage(ChatColor.DARK_RED + "[InvisHelm] Your name-tag is unHidden!");
+                    }
+                } else if (event.getNewArmorPiece().equals(InvisHelm)) {
+                    scoreboard.getTeam(teamName).addEntry(p.getName());
+                    p.sendMessage(ChatColor.DARK_RED + "[InvisHelm] Your name-tag is Hidden!");
                 }
-            } else if (event.getNewArmorPiece().equals(InvisHelm)) {
-                scoreboard.getTeam(teamName).addEntry(p.getName());
-                p.sendMessage(ChatColor.DARK_RED + "Your name-tag is Hidden!");
+            }
+            catch(Exception e){
+                p.sendMessage(ChatColor.DARK_RED + "" + ChatColor.ITALIC + "[InvisHelm] Error. Try Equipping the Helm through your inventory.");
+                System.out.print(e.toString());
             }
 
 
