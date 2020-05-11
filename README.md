@@ -1,7 +1,6 @@
 # SamPom100's Mask-Plugin
 > Hide a players name tag upon donning the mask
 
-> intended for Moonmoon's Hardcore Server
 
 ## Usage
 *commands require the permission: invishelm.use*
