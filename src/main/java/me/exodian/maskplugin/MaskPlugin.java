@@ -21,6 +21,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
+import java.util.ArrayList;
+
 
 public class MaskPlugin extends JavaPlugin {
 
@@ -97,6 +99,9 @@ public class MaskPlugin extends JavaPlugin {
             ItemMeta InvisHelmMETA = InvisHelmTEMP.getItemMeta();
             InvisHelmMETA.setDisplayName(ChatColor.DARK_RED + "" + ChatColor.ITALIC + "Helm of Invisibility");
             InvisHelmMETA.setLocalizedName("InvisHelm");
+            ArrayList<String> lore = new ArrayList<String>();
+            lore.add("A holy remnant of the Ancient One.");
+            InvisHelmMETA.setLore(lore);
             InvisHelmTEMP.setItemMeta(InvisHelmMETA);
             InvisHelm = InvisHelmTEMP;
         }
@@ -106,7 +111,6 @@ public class MaskPlugin extends JavaPlugin {
             Player p = event.getPlayer();
             final Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
             if (event.getOldArmorPiece().equals(InvisHelm)) {
-
                 if (scoreboard.getTeam(teamName).hasEntry(p.getName())) {
                     scoreboard.getTeam(teamName).removeEntry(p.getName());
                     p.sendMessage(ChatColor.DARK_RED + "Your name-tag is unHidden!");
