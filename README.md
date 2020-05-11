@@ -7,4 +7,4 @@
 - `/mask`  (Gives you the Helm of Invisibility).
 
 ### Notes
-- Only those with permission can recieve the mask, but any player can use it.
+- Only those with permission can spawn the mask, but any player can use it.
