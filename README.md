@@ -6,4 +6,5 @@
 *commands require the permission: invishelm.use*
 - `/mask`  (Gives you the Helm of Invisibility).
 
- - Once you have the mask, anyone can put it on and hide their name!
+### Notes
+- Only those with permission can recieve the mask, but any player can use it.
