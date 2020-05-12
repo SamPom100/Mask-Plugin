@@ -97,7 +97,7 @@ public class MaskPlugin extends JavaPlugin {
         public void prepareArmor() {
             ItemStack InvisHelmTEMP = new ItemStack(Material.SKELETON_SKULL);
             ItemMeta InvisHelmMETA = InvisHelmTEMP.getItemMeta();
-            InvisHelmMETA.setDisplayName(ChatColor.DARK_RED + "" + ChatColor.ITALIC + "Helm of Invisibility");
+            InvisHelmMETA.setDisplayName(ChatColor.DARK_RED + "" + ChatColor.ITALIC + "Helm of Occlusion");
             InvisHelmMETA.setLocalizedName("InvisHelm");
             ArrayList<String> lore = new ArrayList<String>();
             lore.add("A holy remnant of the Ancient One.");
