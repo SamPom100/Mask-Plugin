@@ -4,6 +4,7 @@ scoreboardTeam:
   name: "HiddenTeam"
   displayName: "Team used to hide nametags"
 
+CurrentUsers:
 
 # All blocks with an inventory or any blocks that when right clicked shouldn't equip armor.
 blocked:

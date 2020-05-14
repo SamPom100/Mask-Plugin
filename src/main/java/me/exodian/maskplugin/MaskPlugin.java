@@ -55,7 +55,7 @@ public class MaskPlugin extends JavaPlugin {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("Mask")) {
             Player p = (Player) sender;
-            if (p.isOp()) {
+            if (p.hasPermission("invishelm.use")) {
                 p.getInventory().addItem(m.getInvisHelm());
             }
             return true;
@@ -114,9 +114,14 @@ public class MaskPlugin extends JavaPlugin {
                 if (event.getOldArmorPiece().equals(InvisHelm)) {
                     if (scoreboard.getTeam(teamName).hasEntry(p.getName())) {
                         scoreboard.getTeam(teamName).removeEntry(p.getName());
+                        String oldTeam = getConfig().getString(p.getName());
+                        scoreboard.getTeam(oldTeam).addEntry(p.getName());
                         p.sendMessage(ChatColor.DARK_RED + "[InvisHelm] Your name-tag is unHidden!");
                     }
                 } else if (event.getNewArmorPiece().equals(InvisHelm)) {
+                    Team team = p.getScoreboard().getPlayerTeam(p);
+                    String oldName = team.getName();
+                    getConfig().set(p.getName(), oldName);
                     scoreboard.getTeam(teamName).addEntry(p.getName());
                     p.sendMessage(ChatColor.DARK_RED + "[InvisHelm] Your name-tag is Hidden!");
                 }
@@ -125,6 +130,7 @@ public class MaskPlugin extends JavaPlugin {
                 p.sendMessage(ChatColor.DARK_RED + "" + ChatColor.ITALIC + "[InvisHelm] Error. Try Equipping the Helm through your inventory.");
                 System.out.print(e.toString());
             }
+            saveConfig();
 
 
         }
