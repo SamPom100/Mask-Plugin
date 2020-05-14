@@ -4,7 +4,7 @@
 
 ## Usage
 *commands require the permission: invishelm.use*
-- `/mask`  (Gives you the Helm of Invisibility).
+- `/mask`  (Gives you the Helm of Occlusion).
 
 ### Notes
 - Only those with permission can spawn the mask, but any player can use it.
