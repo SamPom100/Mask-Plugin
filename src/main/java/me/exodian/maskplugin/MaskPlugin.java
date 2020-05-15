@@ -59,12 +59,11 @@ public class MaskPlugin extends JavaPlugin {
         private ItemStack invisHelm;
 
         private void prepareScoreboardTeam() {
-            final Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
-
             prepareArmor();
 
+            final Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
             Team team = scoreboard.getTeam(teamName);
-            if (team == null)
+            if (team == null && scoreboard != null)
                 team = scoreboard.registerNewTeam(teamName);
 
             team.setDisplayName(getConfig().getString("scoreboardTeam.displayName"));
