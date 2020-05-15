@@ -22,8 +22,7 @@ import java.util.ArrayList;
 
 
 public class MaskPlugin extends JavaPlugin {
-
-    public Manager m = new Manager();
+    private Manager m = new Manager();
 
     @Override
     public void onEnable() {
@@ -60,14 +59,11 @@ public class MaskPlugin extends JavaPlugin {
         return false;
     }
 
-
-    class Manager implements Listener {
-
-
+    private class Manager implements Listener {
         private String teamName;
-        private ItemStack InvisHelm;
+        private ItemStack invisHelm;
 
-        public void prepareScoreboardTeam() {
+        private void prepareScoreboardTeam() {
             final Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
 
             prepareArmor();
@@ -83,15 +79,15 @@ public class MaskPlugin extends JavaPlugin {
 
         }
 
-        public void setTeamName(String s) {
+        private void setTeamName(String s) {
             teamName = s;
         }
 
-        public ItemStack getInvisHelm() {
+        private ItemStack getInvisHelm() {
             return InvisHelm;
         }
 
-        public void prepareArmor() {
+        private void prepareArmor() {
             ItemStack InvisHelmTEMP = new ItemStack(Material.SKELETON_SKULL);
             ItemMeta InvisHelmMETA = InvisHelmTEMP.getItemMeta();
             InvisHelmMETA.setDisplayName(ChatColor.DARK_RED + "" + ChatColor.ITALIC + "Helm of Occlusion");
@@ -104,7 +100,7 @@ public class MaskPlugin extends JavaPlugin {
         }
 
         @EventHandler(priority = EventPriority.HIGH)
-        public void onArmorUsage(ArmorEquipEvent event) {
+        private void onArmorUsage(ArmorEquipEvent event) {
             Player p = event.getPlayer();
             final Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
             try {
