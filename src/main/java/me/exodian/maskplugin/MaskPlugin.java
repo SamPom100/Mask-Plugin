@@ -3,6 +3,8 @@ package me.exodian.maskplugin;
 import com.codingforcookies.armorequip.ArmorEquipEvent;
 import com.codingforcookies.armorequip.ArmorListener;
 
+import com.earth2me.essentials.Essentials;
+import com.earth2me.essentials.User;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -23,6 +25,7 @@ import java.util.ArrayList;
 
 public class MaskPlugin extends JavaPlugin {
     private Manager m = new Manager();
+    Essentials ess = (Essentials) getServer().getPluginManager().getPlugin("Essentials");
 
     @Override
     public void onEnable() {
@@ -40,7 +43,8 @@ public class MaskPlugin extends JavaPlugin {
 
 
     @Override
-    public void onDisable() {}
+    public void onDisable() {
+    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -104,6 +108,14 @@ public class MaskPlugin extends JavaPlugin {
                         scoreboard.getTeam(teamName).removeEntry(p.getName());
                         final String oldTeam = getConfig().getString(p.getName());
                         scoreboard.getTeam(oldTeam).addEntry(p.getName());
+                        for (User user : ess.getOnlineUsers()) {
+                            if (!user.isAuthorized("essentials.vanish.see")) {
+                                user.getBase().hidePlayer(user.getBase());
+                            }
+                        }
+                        User user2 = ess.getUser(p.getName());
+                        user2.setHidden(true);
+                        ess.getVanishedPlayers().add(p.getName());
                         p.sendMessage(ChatColor.DARK_RED + "[InvisHelm] Your name-tag is unHidden!");
                     }
                 } else if (event.getNewArmorPiece().equals(invisHelm)) {
@@ -111,14 +123,35 @@ public class MaskPlugin extends JavaPlugin {
                     final String oldName = team.getName();
                     getConfig().set(p.getName(), oldName);
                     scoreboard.getTeam(teamName).addEntry(p.getName());
+                    User user = ess.getUser(p.getName());
+                    for (Player pl : ess.getOnlinePlayers()) {
+                        pl.showPlayer(user.getBase());
+                    }
+                    user.setHidden(false);
+                    ess.getVanishedPlayers().remove(p.getName());
                     p.sendMessage(ChatColor.DARK_RED + "[InvisHelm] Your name-tag is Hidden!");
                 }
-            }
-            catch(Exception e){
-                p.sendMessage(ChatColor.DARK_RED + "" + ChatColor.ITALIC + "[InvisHelm] Error. Try Equipping the Helm through your inventory.");
-                System.out.print(e.toString());
+            } catch (Exception e) {
+                try {
+                    final Team team = p.getScoreboard().getPlayerTeam(p);
+                    final String oldName = team.getName();
+                    getConfig().set(p.getName(), oldName);
+                    scoreboard.getTeam(teamName).addEntry(p.getName());
+                    User user = ess.getUser(p.getName());
+                    for (Player pl : ess.getOnlinePlayers()) {
+                        pl.showPlayer(user.getBase());
+                    }
+                    user.setHidden(false);
+                    ess.getVanishedPlayers().remove(p.getName());
+                    //p.sendMessage(ChatColor.DARK_RED + "" + ChatColor.ITALIC + "[InvisHelm] Error. Try Equipping the Helm through your inventory.");
+                    System.out.print(e.toString());
+                } catch (Exception e2) {
+                    System.out.print(e2.toString());
+                }
             }
             saveConfig();
         }
+
+
     }
 }
