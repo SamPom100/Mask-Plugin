@@ -26,7 +26,6 @@ public class MaskPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-
         getLogger().info("MaskPlugin has started.");
 
         saveDefaultConfig();
@@ -37,15 +36,11 @@ public class MaskPlugin extends JavaPlugin {
         m.setTeamName(getConfig().getString("scoreboardTeam.name"));
 
         m.prepareScoreboardTeam();
-
-
     }
 
 
     @Override
-    public void onDisable() {
-
-    }
+    public void onDisable() {}
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -75,8 +70,6 @@ public class MaskPlugin extends JavaPlugin {
 
             team.setDisplayName(getConfig().getString("scoreboardTeam.displayName"));
             team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.NEVER);
-
-
         }
 
         private void setTeamName(String s) {
@@ -124,10 +117,7 @@ public class MaskPlugin extends JavaPlugin {
                 System.out.print(e.toString());
             }
             saveConfig();
-
-
         }
-
     }
 
 /**  ------OLD WAY OF GIVING YOU THE HELM------
@@ -141,6 +131,4 @@ public class MaskPlugin extends JavaPlugin {
  }
  }
  **/
-
-
 }
