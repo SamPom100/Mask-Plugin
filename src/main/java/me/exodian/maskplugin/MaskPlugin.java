@@ -32,7 +32,7 @@ public class MaskPlugin extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(m, this);
         getServer().getPluginManager().registerEvents(new ArmorListener(getConfig().getStringList("blocked")), this);
-
+        getCommand("helm").setExecutor(this::onCommand);
         m.setTeamName(getConfig().getString("scoreboardTeam.name"));
 
         m.prepareScoreboardTeam();
@@ -44,7 +44,7 @@ public class MaskPlugin extends JavaPlugin {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (cmd.getName().equalsIgnoreCase("Mask")) {
+        if (cmd.getName().equalsIgnoreCase("helm")) {
             final Player p = (Player) sender;
 
             if (p.hasPermission("invishelm.use"))
