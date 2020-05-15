@@ -45,10 +45,10 @@ public class MaskPlugin extends JavaPlugin {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("Mask")) {
-            Player p = (Player) sender;
-            if (p.hasPermission("invishelm.use")) {
+            final Player p = (Player) sender;
+
+            if (p.hasPermission("invishelm.use"))
                 p.getInventory().addItem(m.getInvisHelm());
-            }
             return true;
         }
         return false;
@@ -64,9 +64,8 @@ public class MaskPlugin extends JavaPlugin {
             prepareArmor();
 
             Team team = scoreboard.getTeam(teamName);
-            if (team == null) {
+            if (team == null)
                 team = scoreboard.registerNewTeam(teamName);
-            }
 
             team.setDisplayName(getConfig().getString("scoreboardTeam.displayName"));
             team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.NEVER);
@@ -77,36 +76,40 @@ public class MaskPlugin extends JavaPlugin {
         }
 
         private ItemStack getInvisHelm() {
-            return InvisHelm;
+            return invisHelm;
         }
 
         private void prepareArmor() {
-            ItemStack InvisHelmTEMP = new ItemStack(Material.SKELETON_SKULL);
-            ItemMeta InvisHelmMETA = InvisHelmTEMP.getItemMeta();
-            InvisHelmMETA.setDisplayName(ChatColor.DARK_RED + "" + ChatColor.ITALIC + "Helm of Occlusion");
-            InvisHelmMETA.setLocalizedName("InvisHelm");
-            ArrayList<String> lore = new ArrayList<String>();
+            final ItemStack invisHelmTEMP = new ItemStack(Material.SKELETON_SKULL);
+            final ItemMeta invisHelmMETA = invisHelmTEMP.getItemMeta();
+            final ArrayList<String> lore = new ArrayList<String>();
+
+            invisHelmMETA.setDisplayName(ChatColor.DARK_RED + "" + ChatColor.ITALIC + "Helm of Occlusion");
+            invisHelmMETA.setLocalizedName("InvisHelm");
+
             lore.add("A holy remnant of the Ancient One.");
-            InvisHelmMETA.setLore(lore);
-            InvisHelmTEMP.setItemMeta(InvisHelmMETA);
-            InvisHelm = InvisHelmTEMP;
+
+            invisHelmMETA.setLore(lore);
+            invisHelmTEMP.setItemMeta(invisHelmMETA);
+
+            invisHelm = invisHelmTEMP;
         }
 
         @EventHandler(priority = EventPriority.HIGH)
         private void onArmorUsage(ArmorEquipEvent event) {
-            Player p = event.getPlayer();
+            final Player p = event.getPlayer();
             final Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
             try {
-                if (event.getOldArmorPiece().equals(InvisHelm)) {
+                if (event.getOldArmorPiece().equals(invisHelm)) {
                     if (scoreboard.getTeam(teamName).hasEntry(p.getName())) {
                         scoreboard.getTeam(teamName).removeEntry(p.getName());
-                        String oldTeam = getConfig().getString(p.getName());
+                        final String oldTeam = getConfig().getString(p.getName());
                         scoreboard.getTeam(oldTeam).addEntry(p.getName());
                         p.sendMessage(ChatColor.DARK_RED + "[InvisHelm] Your name-tag is unHidden!");
                     }
-                } else if (event.getNewArmorPiece().equals(InvisHelm)) {
-                    Team team = p.getScoreboard().getPlayerTeam(p);
-                    String oldName = team.getName();
+                } else if (event.getNewArmorPiece().equals(invisHelm)) {
+                    final Team team = p.getScoreboard().getPlayerTeam(p);
+                    final String oldName = team.getName();
                     getConfig().set(p.getName(), oldName);
                     scoreboard.getTeam(teamName).addEntry(p.getName());
                     p.sendMessage(ChatColor.DARK_RED + "[InvisHelm] Your name-tag is Hidden!");
@@ -119,16 +122,4 @@ public class MaskPlugin extends JavaPlugin {
             saveConfig();
         }
     }
-
-/**  ------OLD WAY OF GIVING YOU THE HELM------
- @EventHandler(priority = EventPriority.HIGH)
- public void onPlayerUse(PlayerInteractEvent event) {
- Player p = event.getPlayer();
- if (p.isOp() && event.getAction().equals(event.getAction().RIGHT_CLICK_AIR)) {
- if (p.getItemInHand().getType() == Material.BLAZE_POWDER) {
- p.getInventory().addItem(InvisHelm);
- }
- }
- }
- **/
 }
