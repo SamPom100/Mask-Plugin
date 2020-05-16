@@ -115,15 +115,14 @@ public class MaskPlugin extends JavaPlugin {
                     final String oldTeam = getConfig().getString(p.getName());
                     scoreboard.getTeam(oldTeam).addEntry(p.getName());
                     p.sendMessage(ChatColor.DARK_RED + "[InvisHelm] Your name-tag is unHidden!");
+                    
                     /////////////// Essentials Hider ///////////////////////////
-                    for (User user : ess.getOnlineUsers()) {
-                        if (!user.isAuthorized("essentials.vanish.see")) {
-                            user.getBase().hidePlayer(user.getBase());
-                        }
-                    }
-                    User user2 = ess.getUser(p.getName());
-                    user2.setHidden(true);
-                    ess.getVanishedPlayers().add(p.getName());
+                User user = ess.getUser(p.getName());
+                for (Player pl : ess.getOnlinePlayers()) {
+                    pl.showPlayer(user.getBase());
+                }
+                user.setHidden(false);
+                ess.getVanishedPlayers().remove(p.getName());
                 }
             }
 
@@ -135,13 +134,16 @@ public class MaskPlugin extends JavaPlugin {
                 getConfig().set(p.getName(), oldName);
                 scoreboard.getTeam(teamName).addEntry(p.getName());
                 p.sendMessage(ChatColor.DARK_RED + "[InvisHelm] Your name-tag is Hidden!");
+                
                 /////////////// Essentials Hider ///////////////////////////
-                User user = ess.getUser(p.getName());
-                for (Player pl : ess.getOnlinePlayers()) {
-                    pl.showPlayer(user.getBase());
-                }
-                user.setHidden(false);
-                ess.getVanishedPlayers().remove(p.getName());
+                    for (User user : ess.getOnlineUsers()) {
+                        if (!user.isAuthorized("essentials.vanish.see")) {
+                            user.getBase().hidePlayer(user.getBase());
+                        }
+                    }
+                    User user2 = ess.getUser(p.getName());
+                    user2.setHidden(true);
+                    ess.getVanishedPlayers().add(p.getName());
             }
 
 
